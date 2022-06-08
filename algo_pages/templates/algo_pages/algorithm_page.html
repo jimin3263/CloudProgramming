@@ -2,58 +2,30 @@
 {% block main_area %}
 <article id="portfolio" class="wrapper style3">
     <div class="container">
-        <header>
-            <h2>Here’s some stuff I made recently.</h2>
-            <p>Proin odio consequat  sapien vestibulum consequat lorem dolore feugiat.</p>
-        </header>
+{#        <header>#}
+{#            <h2>Here’s some stuff I made recently.</h2>#}
+{#            <p>Proin odio consequat  sapien vestibulum consequat lorem dolore feugiat.</p>#}
+{#        </header>#}
         <div class="row">
-            <div class="col-4 col-6-medium col-12-small">
-                <article class="box style2">
-                    <a href="#" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
-                    <h3><a href="#">Magna feugiat</a></h3>
-                    <p>Ornare nulla proin odio consequat.</p>
-                </article>
-            </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <article class="box style2">
-                    <a href="#" class="image featured"><img src="../../static/images/pic02.jpg" alt="" /></a>
-                    <h3><a href="#">Veroeros primis</a></h3>
-                    <p>Ornare nulla proin odio consequat.</p>
-                </article>
-            </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <article class="box style2">
-                    <a href="#" class="image featured"><img src="../../static/images/pic03.jpg" alt="" /></a>
-                    <h3><a href="#">Lorem ipsum</a></h3>
-                    <p>Ornare nulla proin odio consequat.</p>
-                </article>
-            </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <article class="box style2">
-                    <a href="#" class="image featured"><img src="../../static/images/pic04.jpg" alt="" /></a>
-                    <h3><a href="#">Tempus dolore</a></h3>
-                    <p>Ornare nulla proin odio consequat.</p>
-                </article>
-            </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <article class="box style2">
-                    <a href="#" class="image featured"><img src="../../static/images/pic05.jpg" alt="" /></a>
-                    <h3><a href="#">Feugiat aliquam</a></h3>
-                    <p>Ornare nulla proin odio consequat.</p>
-                </article>
-            </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <article class="box style2">
-                    <a href="#" class="image featured"><img src="../../static/images/pic06.jpg" alt="" /></a>
-                    <h3><a href="#">Sed amet ornare</a></h3>
-                    <p>Ornare nulla proin odio consequat.</p>
-                </article>
-            </div>
+            {% for p in post_list %}
+                <div class="col-4 col-6-medium col-12-small">
+                    <article class="box style2">
+                        {% if post.head_image %}
+                          <img class="image featured" src="{{ p.image.url }}" alt="">
+                        {% else %}
+                          <a href="#" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
+                        {% endif %}
+                        <h3><a href="#">{{ p.title }}</a></h3>
+                        {% if p.tag.exists %}
+                            {% for tag in p.tag.iterator %}
+                                <i class = "fas fa-hashtag"></i>
+                                <a href = {{ tag.get_absolute_url }}> {{ tag }}</a>
+                            {% endfor %}
+                        {% endif %}
+                    </article>
+                </div>
+            {% endfor %}
         </div>
-        <footer>
-            <p>Lorem ipsum dolor sit sapien vestibulum ipsum primis?</p>
-            <a href="#contact" class="button large scrolly">Get in touch with me</a>
-        </footer>
     </div>
 </article>
 {% endblock %}
