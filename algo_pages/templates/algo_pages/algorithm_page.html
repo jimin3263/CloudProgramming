@@ -13,15 +13,16 @@
                         {% if post.head_image %}
                           <img class="image featured" src="{{ p.image.url }}" alt="">
                         {% else %}
-                          <a href="#" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
+                          <a href="{{ p.get_absolute_url }}" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
                         {% endif %}
-                        <h3><a href="#">{{ p.title }}</a></h3>
+                        <h3><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h3>
                         {% if p.tag.exists %}
                             {% for tag in p.tag.iterator %}
                                 <i class = "fas fa-hashtag"></i>
                                 <a href = {{ tag.get_absolute_url }}> {{ tag }}</a>
                             {% endfor %}
                         {% endif %}
+
                     </article>
                 </div>
             {% endfor %}

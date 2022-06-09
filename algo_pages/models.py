@@ -47,10 +47,7 @@ class Post(models.Model):
         return f'[{self.pk}]{self.title} :: {self.author}'
 
     def get_absolute_url(self):
-        return f'/myalgo/{self.pk}/'
-
-    def get_file_name(self):
-        return os.path.basename(self.attached_file.name)
+        return f'/algorithm/{self.pk}/'
 
     def get_content_markdown(self):
         return markdown(self.content)

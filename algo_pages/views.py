@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from algo_pages.models import Post
 
@@ -18,8 +18,11 @@ def search(request):
         'algo_pages/search.html'
     )
 
-
 class PostList(ListView):
     model = Post
     ordering = '-pk'
     template_name = 'algo_pages/algorithm_page.html'
+
+class PostDetail(DetailView):
+    model = Post
+    template_name = 'algo_pages/algorithm_detail.html'
