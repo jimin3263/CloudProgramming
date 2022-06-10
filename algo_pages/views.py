@@ -1,6 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.views.generic import ListView, DetailView
 from algo_pages.models import Post
 
@@ -17,6 +15,16 @@ def search(request):
         'algo_pages/search.html',
         {
             'posts': recent_posts
+        }
+    )
+
+def myPostList(request):
+    post_list = Post.objects.filter(author=request.user)
+    return render(
+        request,
+        'algo_pages/algorithm_page.html',
+        {
+            'post_list': post_list
         }
     )
 

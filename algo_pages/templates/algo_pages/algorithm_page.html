@@ -10,7 +10,7 @@
             {% for p in post_list %}
                 <div class="col-4 col-6-medium col-12-small">
                     <article class="box style2">
-                        {% if post.head_image %}
+                        {% if p.head_image %}
                           <img class="image featured" src="{{ p.image.url }}" alt="">
                         {% else %}
                           <a href="{{ p.get_absolute_url }}" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
@@ -22,7 +22,6 @@
                                 <a href = {{ tag.get_absolute_url }}> {{ tag }}</a>
                             {% endfor %}
                         {% endif %}
-
                     </article>
                 </div>
             {% endfor %}
