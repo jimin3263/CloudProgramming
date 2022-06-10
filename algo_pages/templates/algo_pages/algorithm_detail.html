@@ -1,5 +1,5 @@
-
 {% extends 'algo_pages/base.html' %}
+{% load pybo_filter %}
 {% block main_area %}
     <!-- Wrapper -->
         <div class="outer-div wrapper-detail style3">
@@ -21,7 +21,7 @@
                                 <a href="#" class="author"><span class="name">{{ post.author }}</span><img src="images/avatar.jpg" alt="" /></a>
                             </div>
                         </header>
-                       <p>{{ post.get_content_markdown | safe }}</p>
+                        <p>{{ post.content|mark }}</p>
                         <footer>
                             <ul class="stats">
                                 <li><a href="#">General</a></li>
@@ -33,5 +33,4 @@
                 </div>
         </div>
 </body>
-
 {% endblock %}

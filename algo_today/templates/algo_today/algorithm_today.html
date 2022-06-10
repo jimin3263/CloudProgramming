@@ -1,4 +1,7 @@
 {% extends 'algo_pages/base.html' %}
+{% block css_area %}
+    <link rel="stylesheet" href="../../../algo_pages/static/assets/css/button.css?ver=1.5">
+{% endblock %}
 
 {% block main_area %}
     <article id="top" class="wrapper style3">
@@ -17,7 +20,6 @@
                                 {% endfor %}
                                 <p>지금까지 이 문제를 푼 사람은 <span class="bottom-line"> 총 3명 </span>이에요!</p>
                                 <a href="https://www.acmicpc.net/problem/{{ today_problem.number }}" class="custom-btn btn-16">👉 풀러 가기 </a>
-
                             </section>
                         </div>
                     </div>
