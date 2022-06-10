@@ -3,36 +3,35 @@
 <article id="work" class="wrapper style2">
     <div class="container">
         <header>
-            <h2>Here's all the stuff I do.</h2>
-            <p>Odio turpis amet sed consequat eget posuere consequat.</p>
+             <h2>다른 유저의 풀이를 검색해 보세요 😆</h2>
+            <form action="" method="POST">
+                <div class="search-mode">
+                    <input class="search-txt">
+                    <a class="search-btn" href="#"> <i class="fas fa-search"></i></a>
+                </div>
+            </form>
         </header>
         <div class="row aln-center">
+        {% for post in posts %}
             <div class="col-4 col-6-medium col-12-small">
                 <section class="box style1">
-                    <span class="icon featured fa-comments"></span>
-                    <h3>Consequat lorem</h3>
-                    <p>Ornare nulla proin odio consequat sapien vestibulum ipsum primis sed amet consequat lorem dolore.</p>
+                    {% if post.head_image %}
+                      <img class="image featured" src="{{ p.image.url }}" alt="">
+                    {% else %}
+                      <a href="{{ post.get_absolute_url }}" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
+                    {% endif %}
+                    <h3>{{ post.title }}</h3>
+                     {% if post.tag.exists %}
+                        {% for tag in post.tag.iterator %}
+                            <i class = "fas fa-hashtag"></i>
+                            <a href = {{ tag.get_absolute_url }}> {{ tag }}</a>
+                        {% endfor %}
+                    {% endif %}
+                    <p>By. {{ post.author }}</p>
                 </section>
             </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <section class="box style1">
-                    <span class="icon solid featured fa-camera-retro"></span>
-                    <h3>Lorem dolor tempus</h3>
-                    <p>Ornare nulla proin odio consequat sapien vestibulum ipsum primis sed amet consequat lorem dolore.</p>
-                </section>
-            </div>
-            <div class="col-4 col-6-medium col-12-small">
-                <section class="box style1">
-                    <span class="icon featured fa-thumbs-up"></span>
-                    <h3>Feugiat posuere</h3>
-                    <p>Ornare nulla proin odio consequat sapien vestibulum ipsum primis sed amet consequat lorem dolore.</p>
-                </section>
-            </div>
+        {% endfor %}
         </div>
-        <footer>
-            <p>Lorem ipsum dolor sit sapien vestibulum ipsum primis?</p>
-            <a href="#portfolio" class="button large scrolly">See some of my recent work</a>
-        </footer>
     </div>
 </article>
 {% endblock %}
