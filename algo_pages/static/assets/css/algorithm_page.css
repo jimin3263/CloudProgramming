@@ -79,7 +79,7 @@ input, select, textarea {
 	}
 
 	body {
-		padding-top: 3.5em;
+		padding-top: 1.0em;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -1985,7 +1985,7 @@ input, select, textarea {
 	.wrapper {
 		background-image: url("images/bg.png");
 		box-shadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0.05), inset 0px 2px 3px 0px rgba(0, 0, 0, 0.1);
-		padding: 8em 0 8em 0;
+		padding: 8em 0 15em 0;
 		text-align: center;
 	}
 
@@ -2342,7 +2342,7 @@ input, select, textarea {
 		/* Box */
 
 			.box {
-				padding: 30px 20px 30px 20px;
+				padding: 20px 20px 30px 20px;
 				margin: 0 0 20px 0 !important;
 			}
 
@@ -2402,7 +2402,7 @@ input, select, textarea {
 		/* Articles */
 
 			#top {
-				padding: 3em 0;
+				padding: 5em 0 10em 0;
 			}
 
 				#top .image {

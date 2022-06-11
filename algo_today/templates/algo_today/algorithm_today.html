@@ -1,6 +1,7 @@
 {% extends 'algo_pages/base.html' %}
+{% load static %}
 {% block css_area %}
-    <link rel="stylesheet" href="../../../algo_pages/static/assets/css/button.css?ver=1.5">
+    <link rel="stylesheet" href="{% static 'assets/css/button.css' %}">
 {% endblock %}
 
 {% block main_area %}
@@ -16,9 +17,10 @@
                                 <span></span>
                                 <h3>{{ today_problem }}</h3>
                                 {% for t in tags%}
-                                    <i class = "fas fa-hashtag"> {{ t }} &nbsp</i>
+                                    <a class="tag">   <i class = "fas fa-hashtag"></i>{{ t }}</a>
                                 {% endfor %}
-                                <p>지금까지 이 문제를 푼 사람은 <span class="bottom-line"> 총 3명 </span>이에요!</p>
+                                <br/>
+                                <div>지금까지 이 문제를 푼 사람은 <span class="bottom-line"> 총 3명 </span>이에요!</div>
                                 <a href="https://www.acmicpc.net/problem/{{ today_problem.number }}" class="custom-btn btn-16">👉 풀러 가기 </a>
                             </section>
                         </div>

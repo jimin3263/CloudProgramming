@@ -1,4 +1,5 @@
 {% extends 'algo_pages/base.html' %}
+{% load static %}
 {% block main_area %}
 <article id="work" class="wrapper style2">
     <div class="container">
@@ -19,13 +20,12 @@
                     {% if post.head_image %}
                       <img class="image featured" src="{{ p.image.url }}" alt="">
                     {% else %}
-                      <a href="{{ post.get_absolute_url }}" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
+                      <a href="{{ post.get_absolute_url }}" class="image featured"><img src="{% static 'images/pic01.jpg' %}"  alt="" /></a>
                     {% endif %}
                     <h3>{{ post.title }}</h3>
                      {% if post.tag.exists %}
                         {% for tag in post.tag.iterator %}
-                            <i class = "fas fa-hashtag"></i>
-                            <a href = {{ tag.get_absolute_url }}> {{ tag }}</a>
+                            <a class="tag" >   <i class = "fas fa-hashtag"></i>{{ tag }}</a>
                         {% endfor %}
                     {% endif %}
                     <p>By. {{ post.author }}</p>

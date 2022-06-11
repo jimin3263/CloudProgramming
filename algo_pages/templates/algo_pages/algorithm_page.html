@@ -1,11 +1,16 @@
 {% extends 'algo_pages/base.html' %}
+{% load static %}
 {% block main_area %}
-<article id="portfolio" class="wrapper style3">
+<article class="wrapper style3">
     <div class="container">
-{#        <header>#}
-{#            <h2>Here’s some stuff I made recently.</h2>#}
-{#            <p>Proin odio consequat  sapien vestibulum consequat lorem dolore feugiat.</p>#}
-{#        </header>#}
+        {% for tag in tags %}
+            <a class="detail-tag" href = {{ tag.get_absolute_url }}>   <i class = "fas fa-hashtag"></i> {{ tag }}</a>
+        {% endfor %}
+
+        <br/>
+        <br/>
+        <br/>
+
         <div class="row">
             {% for p in post_list %}
                 <div class="col-4 col-6-medium col-12-small">
@@ -13,13 +18,12 @@
                         {% if p.head_image %}
                           <img class="image featured" src="{{ p.image.url }}" alt="">
                         {% else %}
-                          <a href="{{ p.get_absolute_url }}" class="image featured"><img src="../../static/images/pic01.jpg" alt="" /></a>
+                          <a href="{{ p.get_absolute_url }}" class="image featured"><img src="{% static 'images/pic01.jpg' %}" /></a>
                         {% endif %}
                         <h3><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h3>
                         {% if p.tag.exists %}
                             {% for tag in p.tag.iterator %}
-                                <i class = "fas fa-hashtag"></i>
-                                <a href = {{ tag.get_absolute_url }}> {{ tag }}</a>
+                                <a class="tag" ><i class = "fas fa-hashtag"></i>{{ tag }}</a>
                             {% endfor %}
                         {% endif %}
                     </article>
