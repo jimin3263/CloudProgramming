@@ -5,8 +5,9 @@
         <header>
              <h2>다른 유저의 풀이를 검색해 보세요 😆</h2>
             <form action="" method="POST">
+                {% csrf_token %}
                 <div class="search-mode">
-                    <input class="search-txt">
+                    <input class="search-txt" name="searched">
                     <a class="search-btn" href="#"> <i class="fas fa-search"></i></a>
                 </div>
             </form>

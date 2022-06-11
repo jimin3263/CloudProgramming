@@ -1,5 +1,6 @@
+from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from algo_pages.models import Post
 
 def index(request):
@@ -9,14 +10,13 @@ def index(request):
     )
 
 def search(request):
-    recent_posts = Post.objects.order_by('-pk')[:3]
-    return render(
-        request,
-        'algo_pages/search.html',
-        {
-            'posts': recent_posts
-        }
-    )
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        posts = Post.objects.filter(Q(title__icontains=searched) | Q(content__icontains=searched) | Q(number__icontains=searched)).distinct()
+    else:
+        posts = Post.objects.order_by('-pk')[:3]
+    return render(request, 'algo_pages/search.html', {'posts': posts})
+
 
 def myPostList(request):
     post_list = Post.objects.filter(author=request.user)
