@@ -1,6 +1,8 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 from algo_pages.models import Post, Tag
 
 
@@ -61,3 +63,15 @@ class PostCreate(CreateView):
             return super(PostCreate, self).form_valid(form)
         else:
             return redirect('/algorithm/')
+
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'number', 'content', 'tag', 'image']
+
+    template_name = 'algo_pages/algorithm_update.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if(request.user.is_authenticated):
+            return super(PostUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied

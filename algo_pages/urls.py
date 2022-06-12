@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.myPostList),
     path('search/', views.search),
     path('search/tag/<str:tag>/', views.showPostByTag),
-    path('algorithm/create/', views.PostCreate.as_view())
+    path('algorithm/create/', views.PostCreate.as_view()),
+    path('algorithm/update/<int:pk>/', views.PostUpdate.as_view())
 ]
