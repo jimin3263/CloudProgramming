@@ -8,11 +8,11 @@
   width: 160px;
   height: 50px;
   color: #fff;
+  background: #ffffff;
   border-radius: 5px;
-  padding: 10px 25px;
+  padding: 10px 20px;
   font-family: 'Lato', sans-serif;
   font-weight: 500;
-  background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
@@ -53,4 +53,12 @@
 }
 .btn-16:active {
   top: 2px;
+}
+
+.write-div {
+    display: flex;
+}
+
+.write-button {
+  margin-left: auto;
 }

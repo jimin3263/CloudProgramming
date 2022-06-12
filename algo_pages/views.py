@@ -1,6 +1,6 @@
 from django.db.models import Q
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, FormView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, FormView, CreateView
 from algo_pages.models import Post, Tag
 
 
@@ -48,3 +48,16 @@ class PostList(ListView):
 class PostDetail(DetailView):
     model = Post
     template_name = 'algo_pages/algorithm_detail.html'
+
+class PostCreate(CreateView):
+    model = Post
+    fields = ['title', 'number', 'content', 'tag', 'image']
+    template_name = 'algo_pages/algorithm_create.html'
+    def form_valid(self, form):
+        current_user = self.request.user
+
+        if current_user.is_authenticated:
+            form.instance.author= current_user
+            return super(PostCreate, self).form_valid(form)
+        else:
+            return redirect('/algorithm/')
