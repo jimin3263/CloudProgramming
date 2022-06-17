@@ -1,10 +1,14 @@
+from django.contrib import auth
+from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
+from django.urls import reverse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from algo_pages.models import Post, Tag
-
 
 def index(request):
     return render(
@@ -31,16 +35,26 @@ def showPostByTag(request, tag):
     return render(request, 'algo_pages/algorithm_page.html', context)
 
 def myPostList(request):
-    post_list = Post.objects.filter(author=request.user)
+
     tags = Tag.objects.all()
-    return render(
-        request,
-        'algo_pages/algorithm_page.html',
-        {
-            'post_list': post_list,
-            'tags': tags
-        }
-    )
+    if request.user.is_authenticated:
+        post_list = Post.objects.filter(author=request.user)
+        return render(
+            request,
+            'algo_pages/algorithm_page.html',
+            {
+                'post_list': post_list,
+                'tags': tags
+            }
+        )
+    else:
+        return render(
+            request,
+            'algo_pages/algorithm_page.html',
+            {
+                'tags': tags
+            }
+        )
 
 class PostList(ListView):
     model = Post
@@ -75,3 +89,31 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
             return super(PostUpdate, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
+
+def login(request):
+    if request.method == "GET":
+        return render(request,'algo_pages/login.html')
+
+    elif request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+                login(request, user)
+                # Redirect to a success page.
+                return HttpResponseRedirect(reverse('/'))
+        else:
+            return render(request,'algo_pages/login.html')
+
+def signup(request):
+    if request.method == "GET":
+        return render(request,'algo_pages/signup.html')
+
+    elif request.method == "POST":
+        if request.POST['password1'] == request.POST['password2']:
+            user = User.objects.create_user(
+                request.POST['username'], password=request.POST['password1'])
+            auth.login(request, user)
+            return redirect('/')
+        return render(request, 'algo_pages/signup.html')

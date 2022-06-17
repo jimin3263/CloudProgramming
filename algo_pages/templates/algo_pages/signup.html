@@ -1,0 +1,33 @@
+{% extends 'algo_pages/base.html' %}
+{% load static %}
+{% block css_area %}
+    <link rel="stylesheet" href="{% static 'assets/css/button.css' %}?v=10" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+{% block main_area %}
+    <article class="wrapper style3">
+    <h2> 회원가입 </h2>
+    <div class="container" align="center">
+   <form action="/signup/"  method="POST" > {% csrf_token %}
+
+       <div class="login-name">
+           <b>아이디 </b></div>
+       <div class="login-input-wrap">
+           <input name="username" placeholder="아이디를 입력해주세요" type="text">
+       </div>
+       <br/>
+        <div> <b>비밀번호 </b></div>
+        <div class="login-input-wrap">
+            <input name="password1" placeholder="비밀번호를 입력해주세요" type="password">
+        </div>
+         <br/>
+        <div> <b>비밀번호 확인</b></div>
+        <div class="login-input-wrap">
+            <input name="password2" id="check_password" placeholder="비밀번호를 입력해주세요" type="password">
+        </div>
+       <br/>
+         <button class="login-btn-google btn-16"  ><a class="a-custom" href="/login/"> 로그인 </a> </button>
+        <button class="login-btn-google btn-16" type="submit" ><a class="a-custom" href="/signup/"> 회원가입 </a> </button>
+    </form>
+    </div>
+</article>
+{% endblock %}
