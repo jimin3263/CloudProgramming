@@ -1,0 +1,19 @@
+{% extends 'algo_pages/base.html' %}
+{% load static %}
+{% block css_area %}
+    <link rel="stylesheet" href="{% static 'assets/css/button.css' %}?v=10" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+{% block main_area %}
+    <article class="wrapper style3">
+    <h2> 로그아웃 </h2>
+    <form action="/logout/"  method="POST" > {% csrf_token %}
+    <div class="container" align="center">
+        <div>
+            <button class="login-btn-google btn-16" ><a class="a-custom" href="/logout/"> 로그아웃 </a> </button>
+        </div>
+    </div>
+
+    </form>
+    </div>
+</article>
+{% endblock %}

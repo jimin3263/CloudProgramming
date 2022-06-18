@@ -1,5 +1,5 @@
 from django.contrib import auth
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -16,23 +16,6 @@ def index(request):
         'algo_pages/algorithm_page.html'
     )
 
-def search(request):
-    if request.method == 'POST':
-        searched = request.POST['searched']
-        posts = Post.objects.filter(Q(title__icontains=searched) | Q(content__icontains=searched) | Q(number__icontains=searched)).distinct()
-    else:
-        posts = Post.objects.order_by('-pk')[:3]
-    return render(request, 'algo_pages/search.html', {'posts': posts})
-
-def showPostByTag(request, tag):
-    tag = Tag.objects.get(name=tag)
-    post_list = tag.post_set.filter(author=request.user)
-    tags = Tag.objects.all()
-    context = {
-        'tags': tags,
-        'post_list': post_list
-    }
-    return render(request, 'algo_pages/algorithm_page.html', context)
 
 def myPostList(request):
 
@@ -90,7 +73,7 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         else:
             raise PermissionDenied
 
-def login(request):
+def signin(request):
     if request.method == "GET":
         return render(request,'algo_pages/login.html')
 
@@ -101,10 +84,9 @@ def login(request):
 
         if user is not None:
                 login(request, user)
-                # Redirect to a success page.
-                return HttpResponseRedirect(reverse('/'))
+                return redirect('/')
         else:
-            return render(request,'algo_pages/login.html')
+            return render(request,'algo_pages/login.html', {'error': '아이디, 비밀번호를 제대로 입력해주세요.'})
 
 def signup(request):
     if request.method == "GET":
@@ -112,8 +94,18 @@ def signup(request):
 
     elif request.method == "POST":
         if request.POST['password1'] == request.POST['password2']:
-            user = User.objects.create_user(
-                request.POST['username'], password=request.POST['password1'])
+            try: user = User.objects.create_user(
+                username= request.POST['username'], password=request.POST['password1'], email=request.POST['email'])
+            except:
+                return render(request, 'algo_pages/signup.html', {'error': '중복되는 아이디 혹은 이메일입니다.'})
             auth.login(request, user)
             return redirect('/')
-        return render(request, 'algo_pages/signup.html')
+        return render(request, 'algo_pages/signup.html', {'error': '비밀번호가 일치하지 않습니다.'})
+
+def logout(request):
+    if request.method == "GET":
+        return render(request,'algo_pages/logout.html')
+
+    elif request.method == "POST":
+        auth.logout(request)
+        return redirect('/')
