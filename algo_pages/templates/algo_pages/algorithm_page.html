@@ -6,24 +6,31 @@
 {% block main_area %}
 <article class="wrapper style3">
     <div class="container">
-        <div>
-            {% for tag in tags %}
-                <a class="detail-tag" href = {{ tag.get_absolute_url }}>   <i class = "fas fa-hashtag"></i> {{ tag }}</a>
-            {% endfor %}
-        </div>
-        <div class="write-div">
+
             {% if user.is_authenticated %}
+                <div>
+                    {% for tag in tags %}
+                        <a class="detail-tag" href = {{ tag.get_absolute_url }}>   <i class = "fas fa-hashtag"></i> {{ tag }}</a>
+                    {% endfor %}
+                </div>
+                 <div class="write-div">
                 <a class="custom-btn btn-16 write-button" href="/algorithm/create/" role="button">
                     ✏️ 글 작성</i>
                 </a>
+                 </div>
+            {% else %}
+                <br/>
+                <br/>
+                <div align="center">
+                <h2> 로그인이 필요한 서비스입니다. 😆</h2>
+                 <a href="/login/" class="custom-btn btn-16">👉 로그인 하기 </a>
+                </div>
             {% endif %}
-        </div>
-
 
         <br/>
 
-
-        <div class="row">
+        {% if post_list.exists %}
+            <div class="row">
             {% for p in post_list %}
                 <div class="col-4 col-6-medium col-12-small">
                     <article class="box style2">
@@ -40,8 +47,13 @@
                         {% endif %}
                     </article>
                 </div>
+                </div>
             {% endfor %}
-        </div>
+            {% else %}
+            <div align="center">
+                <h2>작성된 글이 없습니다 😅</h2>
+            </div>
+        {% endif %}
     </div>
 </article>
 {% endblock %}

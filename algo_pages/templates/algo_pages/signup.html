@@ -15,6 +15,10 @@
            <input name="username" placeholder="아이디를 입력해주세요" type="text">
        </div>
        <br/>
+           <div> <b>이메일 </b></div>
+        <div class="login-input-wrap">
+            <input name="email" type="email" placeholder="이메일을 입력해주세요">
+        </div>
         <div> <b>비밀번호 </b></div>
         <div class="login-input-wrap">
             <input name="password1" placeholder="비밀번호를 입력해주세요" type="password">
@@ -24,8 +28,8 @@
         <div class="login-input-wrap">
             <input name="password2" id="check_password" placeholder="비밀번호를 입력해주세요" type="password">
         </div>
+        <div> {{ error }}</div>
        <br/>
-         <button class="login-btn-google btn-16"  ><a class="a-custom" href="/login/"> 로그인 </a> </button>
         <button class="login-btn-google btn-16" type="submit" ><a class="a-custom" href="/signup/"> 회원가입 </a> </button>
     </form>
     </div>

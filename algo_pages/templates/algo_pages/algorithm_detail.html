@@ -21,7 +21,7 @@
                             </div>
                             <div class="meta">
                                 <time class="published">{{ post.created_at }}</time>
-                                <a href="#" class="author"><span class="name">{{ post.author }}</span><img src="images/avatar.jpg" alt="" /></a>
+                               <span class="name">By. {{ post.author }}</span><img src="images/avatar.jpg" alt="" />
                                  <br/>
                                  {% if user.is_authenticated and user == post.author%}
                                         <a class="update-btn btn-16" href="/algorithm/update/{{ post.pk }}" role="button">
