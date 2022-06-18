@@ -22,4 +22,5 @@ urlpatterns = [
     path('today/', include('algo_today.urls')),
     path('markdownx/', include('markdownx.urls')),
     path('accounts/', include('allauth.urls')),
+    path('search/', include('algo_search.urls'))
 ]
