@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django_apscheduler',
     'markdownx',
+    'crispy_forms',
 ]
 
 
@@ -142,9 +143,10 @@ DATABASES = {}
 DATABASES['default'] = dj_database_url.config(default=LOCAL_SQLITE)
 
 
+#MEDIA_ROOT = '/var/vcap/media/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/vcap/media/'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
+LOGOUT_REDIRECT_URL = '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -155,4 +157,14 @@ APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"  # Default
 
 SCHEDULER_DEFAULT = True
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+
 SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,4 +1,5 @@
 {% extends 'algo_pages/base.html' %}
+{% load socialaccount %}
 {% load static %}
 {% block css_area %}
     <link rel="stylesheet" href="{% static 'assets/css/button.css' %}?v=10" xmlns="http://www.w3.org/1999/html">
@@ -20,7 +21,7 @@
         </div>
     </form>
              <div>
-            <button class="login-btn-google btn-16" ><a class="a-custom" href="/signup/"> 구글 로그인 </a> </button>
+            <button class="login-btn-google btn-16" ><a class="a-custom" href="{% provider_login_url 'google' %}"> 구글 로그인 </a> </button>
         </div>
         <div>
             <button class="login-btn-google btn-16" ><a class="a-custom" href="/signup/"> 회원가입 </a> </button>

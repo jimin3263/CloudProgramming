@@ -1,8 +1,10 @@
 {% extends 'algo_pages/base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% load pybo_filter %}
 {% block css_area %}
-    <link rel="stylesheet" href="{% static 'assets/css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/button.css' %}?v2">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}" media="screen">
 {% endblock %}
 {% block main_area %}
     <!-- Wrapper -->
@@ -23,23 +25,70 @@
                                 <time class="published">{{ post.created_at }}</time>
                                <span class="name">By. {{ post.author }}</span><img src="images/avatar.jpg" alt="" />
                                  <br/>
+                                <br/>
                                  {% if user.is_authenticated and user == post.author%}
-                                        <a class="update-btn btn-16" href="/algorithm/update/{{ post.pk }}" role="button">
-                                                ✏️ 글 수정
+                                        <a href="/algorithm/update/{{ post.pk }}" role="button">
+                                                수정하기
+                                        </a>
+                                        |
+                                        <a href="/algorithm/delete/{{ post.pk }}" role="button" onclick="delOk()" id="delete_post">
+                                                ️ 삭제하기
                                         </a>
                                   {% endif %}
                             </div>
                         </header>
                         <p>{{ post.content|mark }}</p>
                         <footer>
-                            <ul class="stats">
-                                <li><a href="#">General</a></li>
-                                <li><a href="#" class="icon solid fa-heart">28</a></li>
-                                <li><a href="#" class="icon solid fa-comment">128</a></li>
-                            </ul>
+
                         </footer>
+
+                        <div class="card my-4">
+                          <h5 class="card-header">댓글 <a class="icon solid fa-comment"></a></h5>
+                          <div class="card-body">
+                              {% if user.is_authenticated %}
+                                  <form id="comment-form" method="post" action="{{ post.get_absolute_url }}new_comment/"> {% csrf_token %}
+                                  <div >
+                                       <input class="comment-box" type="text" name="comment-input">
+                                  </div>
+                                  <button type="submit" class="update-btn btn-16">Submit</button>
+                                </form>
+                              {% endif %}
+                          </div>
+                        </div>
+
+
+                        <!-- Single Comment -->
+                      {% if post.comment_set.exists %}
+                      {% for comment in post.comment_set.iterator %}
+                        <div class="media mb-4" id = "comment-{{ comment.pk }}">
+                          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                          <div class="media-body">
+                            <h5 class="mt-0">{{ comment.author.username }}  &nbsp &nbsp;<small class="text-muted"> {{ comment.created_at }}</small>
+                            </h5>
+                              <p>{{ comment.content | linebreaks }}</p>
+                          </div>
+                        </div>
+
+                      {% endfor %}
+                      {% endif  %}
+
                     </article>
+
                 </div>
+        </div>
+
         </div>
 </body>
 {% endblock %}
+
+<script>
+    window.onload = function () {
+    var el = document.getElementById("delete_post");
+    el.onclick = delOk;
+}
+
+    function delOk() {
+        if (! confirm("삭제하시겠습니까?"))
+            return false;
+    }
+</script>

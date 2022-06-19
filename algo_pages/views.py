@@ -3,12 +3,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from algo_pages.models import Post, Tag
+
+from algo_pages.models import Post, Tag, Comment
+
 
 def index(request):
     return render(
@@ -16,6 +15,13 @@ def index(request):
         'algo_pages/algorithm_page.html'
     )
 
+def tag(request):
+    User.objects.create_superuser('admin', 'admin@myapp.local', 'admin')
+
+def delete(request, pk):
+    cat = Post.objects.get(id=pk)
+    cat.delete()
+    return redirect('/algorithm/')
 
 def myPostList(request):
 
@@ -47,6 +53,12 @@ class PostList(ListView):
 class PostDetail(DetailView):
     model = Post
     template_name = 'algo_pages/algorithm_detail.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostDetail, self).get_context_data()
+        context['comment_form'] = CommentForm
+
+        return context
 
 class PostCreate(CreateView):
     model = Post
@@ -98,7 +110,7 @@ def signup(request):
                 username= request.POST['username'], password=request.POST['password1'], email=request.POST['email'])
             except:
                 return render(request, 'algo_pages/signup.html', {'error': '중복되는 아이디 혹은 이메일입니다.'})
-            auth.login(request, user)
+
             return redirect('/')
         return render(request, 'algo_pages/signup.html', {'error': '비밀번호가 일치하지 않습니다.'})
 
@@ -109,3 +121,18 @@ def logout(request):
     elif request.method == "POST":
         auth.logout(request)
         return redirect('/')
+
+def new_comment(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk)
+
+        if request.method == 'POST':
+            comment = Comment(content=request.POST['comment-input'])
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect(comment.get_absolute_url())
+        else:
+            return redirect(post.get_absolute_url())
+    else:
+        return PermissionDenied

@@ -28,14 +28,14 @@
             {% endif %}
 
         <br/>
-
+        {% if user.is_authenticated %}
         {% if post_list.exists %}
             <div class="row">
             {% for p in post_list %}
                 <div class="col-4 col-6-medium col-12-small">
                     <article class="box style2">
-                        {% if p.head_image %}
-                          <img class="image featured" src="{{ p.image.url }}" alt="">
+                        {% if p.image %}
+                          <img class="image featured" src="{{ p.image.url }}" alt="" width="350px" height="264px">
                         {% else %}
                           <a href="{{ p.get_absolute_url }}" class="image featured"><img src="{% static 'images/pic01.jpg' %}" /></a>
                         {% endif %}
@@ -46,14 +46,15 @@
                             {% endfor %}
                         {% endif %}
                     </article>
-                </div>
-                </div>
+                 </div>
             {% endfor %}
+             </div>
             {% else %}
             <div align="center">
                 <h2>작성된 글이 없습니다 😅</h2>
             </div>
         {% endif %}
+    {% endif %}
     </div>
 </article>
 {% endblock %}
