@@ -11,6 +11,7 @@ Django==3.2.13
 django-allauth==0.50.0
 django-apscheduler==0.6.2
 django-crispy-forms==1.14.0
+django-crontab==0.7.1
 django-markdownx==3.0.1
 idna==3.3
 importlib-metadata==4.11.4
