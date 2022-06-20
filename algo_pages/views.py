@@ -1,3 +1,4 @@
+from allauth.account.views import LoginView
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,16 +17,12 @@ def index(request):
         'algo_pages/algorithm_page.html'
     )
 
-def tag(request):
-    User.objects.create_superuser('admin', 'admin@myapp.local', 'admin')
-
 def delete(request, pk):
     cat = Post.objects.get(id=pk)
     cat.delete()
     return redirect('/algorithm/')
 
 def myPostList(request):
-
     tags = Tag.objects.all()
     if request.user.is_authenticated:
         post_list = Post.objects.filter(author=request.user)

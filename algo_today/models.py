@@ -14,8 +14,8 @@ class Problem(models.Model):
         return f'/today/'
 
 class TodayProblem(models.Model):
-    number = models.IntegerField()
+    problem = models.ForeignKey(Problem, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f'{self.number}'
+        return f'{self.problem.pk}'
 

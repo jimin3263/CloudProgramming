@@ -13,6 +13,5 @@ urlpatterns = [
     path('login/', views.signin),
     path('signup/', views.signup),
     path('logout/', views.logout),
-    path('tag/', views.tag),
     path('algorithm/<int:pk>/new_comment/', views.new_comment)
 ]
