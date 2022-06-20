@@ -1,9 +1,5 @@
-import os
-
 from django.contrib.auth.models import User
 from django.db import models
-
-# Create your models here.
 from markdown import markdown
 from markdownx.models import MarkdownxField
 
@@ -19,7 +15,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=30) #제목
-    number = models.IntegerField() #문제번호
+    number = models.IntegerField(null=True, blank=True) #문제번호
     content = MarkdownxField() #내용
 
     tag = models.ManyToManyField(Tag, blank=True)
