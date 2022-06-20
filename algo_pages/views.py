@@ -1,4 +1,3 @@
-from allauth.account.views import LoginView
 from django.contrib import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -83,6 +82,21 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         else:
             raise PermissionDenied
 
+def new_comment(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk)
+
+        if request.method == 'POST':
+            comment = Comment(content=request.POST['comment-input'])
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect(comment.get_absolute_url())
+        else:
+            return redirect(post.get_absolute_url())
+    else:
+        return PermissionDenied
+
 def signin(request):
     if request.method == "GET":
         return render(request,'algo_pages/login.html')
@@ -101,14 +115,13 @@ def signin(request):
 def signup(request):
     if request.method == "GET":
         return render(request,'algo_pages/signup.html')
-
     elif request.method == "POST":
         if request.POST['password1'] == request.POST['password2']:
             try: user = User.objects.create_user(
                 username= request.POST['username'], password=request.POST['password1'], email=request.POST['email'])
             except:
                 return render(request, 'algo_pages/signup.html', {'error': '중복되는 아이디 혹은 이메일입니다.'})
-
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('/')
         return render(request, 'algo_pages/signup.html', {'error': '비밀번호가 일치하지 않습니다.'})
 
@@ -119,18 +132,3 @@ def logout(request):
     elif request.method == "POST":
         auth.logout(request)
         return redirect('/')
-
-def new_comment(request, pk):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, pk=pk)
-
-        if request.method == 'POST':
-            comment = Comment(content=request.POST['comment-input'])
-            comment.post = post
-            comment.author = request.user
-            comment.save()
-            return redirect(comment.get_absolute_url())
-        else:
-            return redirect(post.get_absolute_url())
-    else:
-        return PermissionDenied
