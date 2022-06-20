@@ -10,7 +10,7 @@ from algo_today.models import Problem, TodayProblem
 
 def index(request):
     #today_problem = TodayProblem.objects.last().problem
-    today_problem = Problem.objects.get(pk=random.randrange(1, 6125))
+    today_problem = Problem.objects.get(pk=random.randrange(1, 4900))
     tags = today_problem.tag.split(" ")
     count = Post.objects.filter(number=today_problem.number).count()
     context = {
