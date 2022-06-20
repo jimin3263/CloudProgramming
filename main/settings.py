@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'algo_today',
     'algo_pages',
+    'algo_search',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'django_apscheduler',
     'markdownx',
     'crispy_forms',
+    'django_crontab'
 ]
 
 
@@ -168,3 +170,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = '/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRONJOBS = [
+    ('*/5 * * * *', 'main.cron.create_today_problem'),
+    #('30 4 * * *', 'main.cron.create_today_problem')
+]
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
